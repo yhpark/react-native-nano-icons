@@ -1,13 +1,34 @@
 /** @jest-environment node */
 
-import { JSDOM } from 'jsdom';
 import {
   calculateOpColor,
   parseFlattenedSvg,
   preprocessSvg,
   validateSvg,
+  type XmlNode,
 } from '../src/core/svg/svg_dom';
 import { parseColor } from '../src/utils/parse';
+
+// Build a parent-linked XmlNode tree from a small literal spec.
+// Each level is [tag, attrs, ...children]; returns the deepest-left node
+// so tests can target the leaf path element directly.
+function makeNode(
+  spec: [string, Record<string, string>, ...unknown[]],
+  parent: XmlNode | null = null
+): XmlNode {
+  const [tag, attrs, ...children] = spec;
+  const node: XmlNode = { tag, attrs, children: [], parent };
+  node.children = children.map((c) =>
+    makeNode(c as [string, Record<string, string>, ...unknown[]], node)
+  );
+  return node;
+}
+
+function leaf(node: XmlNode): XmlNode {
+  let current = node;
+  while (current.children.length > 0) current = current.children[0]!;
+  return current;
+}
 
 // ---------------------------------------------------------------------------
 // parseColor
@@ -64,56 +85,54 @@ describe('parseColor', () => {
 // ---------------------------------------------------------------------------
 
 describe('calculateOpColor', () => {
-  function makeElement(svg: string, selector: string): Element {
-    const doc = new JSDOM(svg).window.document;
-    const el = doc.querySelector(selector);
-    if (!el) throw new Error(`No element matching "${selector}"`);
-    return el;
-  }
-
   test('explicit fill + opacity multiplies alpha', () => {
-    const el = makeElement(
-      '<svg><path d="M0 0" fill="#ff0000" opacity="0.5"/></svg>',
-      'path'
+    const el = leaf(
+      makeNode([
+        'svg',
+        {},
+        ['path', { d: 'M0 0', fill: '#ff0000', opacity: '0.5' }],
+      ])
     );
     expect(calculateOpColor('#ff0000', 0.5, el)).toBe('rgba(255,0,0,0.5)');
   });
 
   test('null fill walks up to parent fill attr', () => {
-    const el = makeElement(
-      '<svg><g fill="blue"><path d="M0 0"/></g></svg>',
-      'path'
+    const el = leaf(
+      makeNode(['svg', {}, ['g', { fill: 'blue' }, ['path', { d: 'M0 0' }]]])
     );
     expect(calculateOpColor(null, 0.5, el)).toBe('rgba(0,0,255,0.5)');
   });
 
   test('null fill with no ancestor fill falls back to black', () => {
-    const el = makeElement('<svg><path d="M0 0"/></svg>', 'path');
+    const el = leaf(makeNode(['svg', {}, ['path', { d: 'M0 0' }]]));
     expect(calculateOpColor(null, 0.5, el)).toBe('rgba(0,0,0,0.5)');
   });
 
   test('skips ancestor fill="inherit" and keeps walking', () => {
-    const el = makeElement(
-      '<svg fill="green"><g fill="inherit"><path d="M0 0"/></g></svg>',
-      'path'
+    const el = leaf(
+      makeNode([
+        'svg',
+        { fill: 'green' },
+        ['g', { fill: 'inherit' }, ['path', { d: 'M0 0' }]],
+      ])
     );
     expect(calculateOpColor(null, 1, el)).toBe('rgba(0,128,0,1)');
   });
 
   test('rgba fill + opacity — alpha values multiply', () => {
-    const el = makeElement('<svg><path d="M0 0"/></svg>', 'path');
+    const el = leaf(makeNode(['svg', {}, ['path', { d: 'M0 0' }]]));
     expect(calculateOpColor('rgba(255,0,0,0.8)', 0.5, el)).toBe(
       'rgba(255,0,0,0.4)'
     );
   });
 
   test('opacity=1 is a no-op on opaque fill', () => {
-    const el = makeElement('<svg><path d="M0 0"/></svg>', 'path');
+    const el = leaf(makeNode(['svg', {}, ['path', { d: 'M0 0' }]]));
     expect(calculateOpColor('#00ff00', 1, el)).toBe('rgba(0,255,0,1)');
   });
 
   test('alpha is rounded to 4 decimal places', () => {
-    const el = makeElement('<svg><path d="M0 0"/></svg>', 'path');
+    const el = leaf(makeNode(['svg', {}, ['path', { d: 'M0 0' }]]));
     const result = calculateOpColor('#ffffff', 1 / 3, el);
     expect(result).toBe('rgba(255,255,255,0.3333)');
   });

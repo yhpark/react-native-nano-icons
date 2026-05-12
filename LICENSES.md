@@ -10,9 +10,9 @@ This project bundles or depends on the following third-party software:
    License: MIT
    Source: https://www.npmjs.com/package/fonteditor-core
 
-3. jsdom
+3. fast-xml-parser
    License: MIT
-   Source: https://github.com/jsdom/jsdom
+   Source: https://github.com/NaturalIntelligence/fast-xml-parser
 
 4. minimist
    License: MIT
