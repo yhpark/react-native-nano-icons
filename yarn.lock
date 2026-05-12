@@ -7640,13 +7640,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cli-spinners@npm:^3.2.0":
-  version: 3.4.0
-  resolution: "cli-spinners@npm:3.4.0"
-  checksum: 10c0/91296c32e147d5b973c9d439d1512306499215437b92f0c0d8be44ec850b555acb8795c19c606b2f6747f31d50c4e41fdde7dcef653f18f0ae7cdd58e99a4764
-  languageName: node
-  linkType: hard
-
 "cli-truncate@npm:^5.0.0":
   version: 5.2.0
   resolution: "cli-truncate@npm:5.2.0"
@@ -11818,13 +11811,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-interactive@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "is-interactive@npm:2.0.0"
-  checksum: 10c0/801c8f6064f85199dc6bf99b5dd98db3282e930c3bc197b32f2c5b89313bb578a07d1b8a01365c4348c2927229234f3681eb861b9c2c92bee72ff397390fa600
-  languageName: node
-  linkType: hard
-
 "is-map@npm:^2.0.3":
   version: 2.0.3
   resolution: "is-map@npm:2.0.3"
@@ -11994,13 +11980,6 @@ __metadata:
   version: 0.1.0
   resolution: "is-unicode-supported@npm:0.1.0"
   checksum: 10c0/00cbe3455c3756be68d2542c416cab888aebd5012781d6819749fefb15162ff23e38501fe681b3d751c73e8ff561ac09a5293eba6f58fdf0178462ce6dcb3453
-  languageName: node
-  linkType: hard
-
-"is-unicode-supported@npm:^2.0.0, is-unicode-supported@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "is-unicode-supported@npm:2.1.0"
-  checksum: 10c0/a0f53e9a7c1fdbcf2d2ef6e40d4736fdffff1c9f8944c75e15425118ff3610172c87bf7bc6c34d3903b04be59790bb2212ddbe21ee65b5a97030fc50370545a5
   languageName: node
   linkType: hard
 
@@ -13778,16 +13757,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"log-symbols@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "log-symbols@npm:7.0.1"
-  dependencies:
-    is-unicode-supported: "npm:^2.0.0"
-    yoctocolors: "npm:^2.1.1"
-  checksum: 10c0/71d30f9a44b8604b14df5e7c9b579d739997253db7385339d493ece41ee2cc74c1f96c5b4c0b2c1e0829b05348d4f287e68faab495b7a094a80f51351c816075
-  languageName: node
-  linkType: hard
-
 "log-update@npm:^6.1.0":
   version: 6.1.0
   resolution: "log-update@npm:6.1.0"
@@ -14976,22 +14945,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ora@npm:^9.3.0":
-  version: 9.3.0
-  resolution: "ora@npm:9.3.0"
-  dependencies:
-    chalk: "npm:^5.6.2"
-    cli-cursor: "npm:^5.0.0"
-    cli-spinners: "npm:^3.2.0"
-    is-interactive: "npm:^2.0.0"
-    is-unicode-supported: "npm:^2.1.0"
-    log-symbols: "npm:^7.0.1"
-    stdin-discarder: "npm:^0.3.1"
-    string-width: "npm:^8.1.0"
-  checksum: 10c0/1d25c0f43e20389757285f740686958bce78ccb9d03dda190ecc92ae585cbc498fa54cf13933fea2f96cb97a0be82e927cf0fd8c96217459f9c43d915a380531
-  languageName: node
-  linkType: hard
-
 "own-keys@npm:^1.0.1":
   version: 1.0.1
   resolution: "own-keys@npm:1.0.1"
@@ -15784,7 +15737,6 @@ __metadata:
     fast-xml-parser: "npm:^4.5.5"
     fonteditor-core: "npm:^2.6.3"
     jest: "npm:^29.7.0"
-    ora: "npm:^9.3.0"
     patch-package: "npm:^8.0.0"
     pathkit-wasm: "npm:^1.0.0"
     plist: "npm:^3.0.5"
@@ -15795,6 +15747,7 @@ __metadata:
     svg2ttf: "npm:^6.0.3"
     typescript: "npm:^5.9.3"
     xcode: "npm:^3.0.1"
+    yocto-spinner: "npm:^1.2.0"
   peerDependencies:
     expo: "*"
     react: "*"
@@ -17245,13 +17198,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stdin-discarder@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "stdin-discarder@npm:0.3.1"
-  checksum: 10c0/2fda9b230e72f092a933dbc755fadbfd53b721b103acddd06c2642a81793565f1673f249dc54fc0c63b141f222e9d09494cdf4db6ab7998f54e0b0be8526cba5
-  languageName: node
-  linkType: hard
-
 "stop-iteration-iterator@npm:^1.1.0":
   version: 1.1.0
   resolution: "stop-iteration-iterator@npm:1.1.0"
@@ -17350,7 +17296,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-width@npm:^8.1.0, string-width@npm:^8.2.0":
+"string-width@npm:^8.2.0":
   version: 8.2.0
   resolution: "string-width@npm:8.2.0"
   dependencies:
@@ -18909,6 +18855,15 @@ __metadata:
   version: 1.2.2
   resolution: "yocto-queue@npm:1.2.2"
   checksum: 10c0/36d4793e9cf7060f9da543baf67c55e354f4862c8d3d34de1a1b1d7c382d44171315cc54abf84d8900b8113d742b830108a1434f4898fb244f9b7e8426d4b8f5
+  languageName: node
+  linkType: hard
+
+"yocto-spinner@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "yocto-spinner@npm:1.2.0"
+  dependencies:
+    yoctocolors: "npm:^2.1.1"
+  checksum: 10c0/8d5ee832f022c741a9e2f59fc4c50403517eda405e774b27fbfc64d871a172d4762bc6b50614af0ceff289ebb176ae0e979ead072af9b10b3c176fdb1d1c042e
   languageName: node
   linkType: hard
 

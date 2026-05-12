@@ -7,8 +7,9 @@ import type { IconSetConfig, BuiltFont } from './types.js';
 
 /**
  * Build TTF + glyphmap for all icon sets.
- * Shows an ora spinner per font set; catches errors and displays a friendly message
- * unless EXPO_DEBUG is set, in which case the full error is re-thrown.
+ * Uses the quiet logger to avoid disrupting Expo's own output; catches errors and
+ * displays a friendly message unless EXPO_DEBUG is set, in which case the full
+ * error is re-thrown.
  */
 export async function buildAllFonts(
   iconSets: IconSetConfig[],

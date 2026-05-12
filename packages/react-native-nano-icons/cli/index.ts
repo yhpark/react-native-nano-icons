@@ -1,6 +1,6 @@
 export { buildAllFonts, type IconSetConfig, type BuiltFont } from './build.js';
 export {
-  createOraLogger,
+  createSpinnerLogger,
   createQuietLogger,
   detectExpoLogLevel,
   type NanoLogger,

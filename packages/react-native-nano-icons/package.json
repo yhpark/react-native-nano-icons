@@ -40,12 +40,12 @@
     "chalk": "^5.6.2",
     "fast-xml-parser": "^4.5.5",
     "fonteditor-core": "^2.6.3",
-    "ora": "^9.3.0",
     "pathkit-wasm": "^1.0.0",
     "plist": "^3.0.5",
     "pyodide": "^0.29.3",
     "svg2ttf": "^6.0.3",
-    "xcode": "^3.0.1"
+    "xcode": "^3.0.1",
+    "yocto-spinner": "^1.2.0"
   },
   "peerDependencies": {
     "expo": "*",

@@ -13,31 +13,45 @@ export type NanoLogger = {
 const PREFIX = 'react-native-nano-icons';
 
 /**
- * Create an ora spinner-backed logger.
- * ora and chalk are ESM-only so they are loaded via dynamic import;
+ * Create a spinner-backed logger using yocto-spinner.
+ * yocto-spinner and chalk are ESM-only so they are loaded via dynamic import;
  * this factory must be awaited once before use.
  */
-export async function createOraLogger(level: LogLevel): Promise<NanoLogger> {
-  const [{ default: ora }, { default: chalk }] = await Promise.all([
-    import('ora'),
+export async function createSpinnerLogger(
+  level: LogLevel
+): Promise<NanoLogger> {
+  // Yocto-spinner re-renders each frame on a new line in non-TTY; degrade to quiet logger to avoid flooding CI logs.
+  const stream = process.stderr;
+  const isInteractive =
+    Boolean(stream.isTTY) &&
+    process.env['TERM'] !== 'dumb' &&
+    !('CI' in process.env);
+
+  if (!isInteractive) return createQuietLogger(level);
+
+  const [{ default: yoctoSpinner }, { default: chalk }] = await Promise.all([
+    import('yocto-spinner'),
     import('chalk'),
   ]);
 
-  const spinner = ora({ prefixText: `🔬 ${chalk.dim(PREFIX)}` });
+  const prefix = `🔬 ${chalk.dim(PREFIX)} `;
+  const spinner = yoctoSpinner({ stream, text: prefix });
   const dimPrefix = chalk.dim(`  ℹ  `);
 
   return {
     start(msg) {
-      spinner.start(msg);
+      spinner.start(prefix + msg);
     },
     update(msg) {
-      spinner.text = msg;
+      spinner.text = prefix + msg;
     },
     succeed(msg) {
-      spinner.succeed(msg);
+      if (!spinner.isSpinning) spinner.start(prefix);
+      spinner.success(prefix + msg);
     },
     fail(msg) {
-      spinner.fail(chalk.red(msg));
+      if (!spinner.isSpinning) spinner.start(prefix);
+      spinner.error(prefix + chalk.red(msg));
     },
     info(msg) {
       if (level === 'verbose') {
@@ -46,14 +60,15 @@ export async function createOraLogger(level: LogLevel): Promise<NanoLogger> {
       }
     },
     warn(msg) {
-      spinner.warn(chalk.yellow(msg));
+      if (!spinner.isSpinning) spinner.start(prefix);
+      spinner.warning(prefix + chalk.yellow(msg));
     },
   };
 }
 
 /**
  * Create a plain-text logger suitable for Expo prebuild context.
- * No ora spinner — only success/error lines are printed to avoid
+ * No spinner — only success/error lines are printed to avoid
  * disrupting Expo's own output.
  */
 export async function createQuietLogger(level: LogLevel): Promise<NanoLogger> {

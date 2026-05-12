@@ -13,7 +13,7 @@
  */
 import path from 'node:path';
 import {
-  createOraLogger,
+  createSpinnerLogger,
   loadNanoIconsConfig,
   buildAllFonts,
   linkBare,
@@ -30,7 +30,7 @@ async function main(): Promise<void> {
       ? path.resolve(projectRoot, process.argv[pathIdx + 1]!)
       : projectRoot;
 
-  const logger = await createOraLogger(level);
+  const logger = await createSpinnerLogger(level);
   const config = loadNanoIconsConfig(configRoot);
   const built = await buildAllFonts(config.iconSets, projectRoot, { logger });
   await linkBare(projectRoot, built, logger);
