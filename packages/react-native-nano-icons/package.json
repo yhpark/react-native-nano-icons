@@ -45,7 +45,6 @@
     "plist": "^3.0.5",
     "pyodide": "^0.29.3",
     "svg2ttf": "^6.0.3",
-    "svgicons2svgfont": "^15.0.1",
     "xcode": "^3.0.1"
   },
   "peerDependencies": {
